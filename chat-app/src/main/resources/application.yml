@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cxs_currency_sys?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.hitchater.chatapp.entity
+
+server:
+  port: 3001
+
+logging:
+  level:
+    com.hitchater.chatapp.mapper: debug
+    org.mybatis: debug
+    com.baomidou: debug
+
+file:
+  upload-dir: "D:\\cxs-currency-sys-server-master\\upload"
+
+

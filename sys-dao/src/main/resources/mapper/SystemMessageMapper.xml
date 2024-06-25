@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.SystemMessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.SystemMessage">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="receiveUserId" column="receive_user_id" jdbcType="VARCHAR"/>
+            <result property="messageContent" column="message_content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="isRead" column="is_read" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,receive_user_id,message_content,
+        create_time,is_read
+    </sql>
+    <update id="updateReadFlagByTargetIdAndIds">
+        UPDATE t_system_message SET is_read = 1
+        WHERE receive_user_id = #{targetId}
+        AND id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

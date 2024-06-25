@@ -1,0 +1,44 @@
+{
+  "id": "3805712",
+  "name": "工大圈子",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8802658",
+      "name": "公告",
+      "font_class": "gonggao",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "11372777",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e8c6",
+      "unicode_decimal": 59590
+    },
+    {
+      "icon_id": "2076368",
+      "name": " 收藏1小",
+      "font_class": "shoucangxiao",
+      "unicode": "e8bc",
+      "unicode_decimal": 59580
+    },
+    {
+      "icon_id": "11372758",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e8c3",
+      "unicode_decimal": 59587
+    },
+    {
+      "icon_id": "7226336",
+      "name": "压缩包",
+      "font_class": "yasuobao",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    }
+  ]
+}

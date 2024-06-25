@@ -1,0 +1,169 @@
+server:
+  port: 2022
+common:
+  dev: true # 当前环境是dev环境
+  default-pwd: "1234567890!"
+  system:
+    # 系统内置配置
+    inner-super-admin: "67489e02c9b44da6aa33735ee9beb4d5"
+    inner-user: "67489e02c9b44da6aa33735ee9beb4d5"
+    inner-role: "1,2,3,4"
+    inner-menu: "1"
+    super-admin-role-id: 1
+    admin-role-id: 2
+    user-role-id: 3
+    super-admin-role-name: "ROLE_super_admin"
+    admin-role-name: "ROLE_admin"
+    user-role-name: "ROLE_user"
+  file-upload:
+    path: "D:\\cxs-currency-sys-server-master\\upload"
+    img-suffix: ".jpg,.png,.jpeg"
+    file-suffix: ".zip,.tar"
+    img-path: "images"
+    file-path: "files"
+  file-access:
+    default: http://127.0.0.1:3000/favicon.ico
+spring:
+  application:
+    name: cxs-currency-sys-server-dev
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 100MB
+      max-request-size: 200MB
+    tempDir: temp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cxs_currency_sys?useUnicode=true&useSSL=false&characterEncoding=utf-8
+    #url: jdbc:mysql:///cxs_currency_sys?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    database: cxs_currency_sys
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始连接数
+    initialSize: 5
+    # 最小连接池数量
+    minIdle: 10
+    # 最大连接池数量
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    # 配置一个连接在池中最大生存的时间，单位是毫秒
+    maxEvictableIdleTimeMillis: 900000
+  # 邮件发送
+  mail:
+    username: caishenghao040115@163.com
+    password: KUOVXUJSYMPQLOEW
+    host: smtp.163.com
+    phone: 13663588134
+    title: "哈工大圈子"
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: "123456"
+    jedis:
+      pool:
+        #最大连接数
+        max-active: 8
+        #最大阻塞等待时间(负数表示没限制)
+        max-wait: -1
+        #最大空闲
+        max-idle: 8
+        #最小空闲
+        min-idle: 0
+        #连接超时时间
+        timeout: 10000
+# 文档权限控制
+swagger:
+  enable: true
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.cxs.model
+  global-config:
+    banner: false
+  mapper-locations: classpath:mapper/*.xml
+# 文件上传
+aliyun:
+  oss:
+    #服务器地址, 我选择的是华北2-北京地址如下
+    endpoint: http://oss-cn-beijing.aliyuncs.com
+    #子账户名称
+    accessKeyId: 无需配置、使用本地
+    #子账户密码
+    accessKeySecret: 无需配置、使用本地
+    #桶的名字
+    bucketName: currency-sys-server
+knife4j:
+  enable: true
+  basic:
+    enable: false  #进入界面是否需要账号密码
+    username: admin
+    password: 123456
+# 认证配置
+auth:
+  domain: "blob.com"
+  code-period: 60 # 验证码有效期，单位/秒
+  jwt:
+    signingKey: "67489e02c9b44da6aa33735ee9beb4d5"
+    validityTime: 30 # jwt Token有效期
+  # 放心白名单url
+  ignore: /auth/**,/main/**,/doc.html,/index.html,/favicon.ico,/webjars/**,/swagger-resources/**,/v2/**,/upload/**,/admin/common/**,/rechangeType/call,/bindingRecord/**
+# 位置配置
+location:
+  baidu:
+    secret: "EXwskyURzDWBkwNleuUeW2dzdEIxetlD"
+    url: "https://api.map.baidu.com/location/ip"
+# 日志
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
+  file:
+    path: logdir
+# 缓存时间
+cache:
+  time:
+    short-time: 10
+    long-time: 30
+# 文章搜索相关
+article:
+  hot-search:
+    list-num: 10   # 数据保存10条
+    data-space: 3  # 保留3天的数据
+  sys-recommend:
+    list-num: 10  # 主页系统推荐条数
+
+# rsa加密
+rsa:
+  # 加密公钥
+  public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgHGtiW5IEwrPsfo+ANoS5wLVxYhI1p6K+cH5Y2pyxCWNwjYxt8My2MxitEjrlxq/LjAMAp/7YRHL77oAkr1UJyTSvHaCivokzIfM81tCe5ybkfJw0vryjk9Ut8cmaeYprE4Nv0ZrtYiumJ8+CidkzIgK15bnaXjhFoVhf610ZeT6JixK10NuYzlgl9EgtdWCPFpEGGlMNJXqEJYjHRkQaf067P+pXY2sp64CYnoZk+E2ATuJtQ4aUSMCbDVa7/wlUY/Ehe4mqBJfxpMa9YsPeunTZQET9i3jSjlIkBxIs+p+M8xiVawIPxcDe0QnnZkbYQ8U+p4zXmHylI3EczJZ+wIDAQAB"
+  # 加密私钥
+  private_key: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCAca2JbkgTCs+x+j4A2hLnAtXFiEjWnor5wfljanLEJY3CNjG3wzLYzGK0SOuXGr8uMAwCn/thEcvvugCSvVQnJNK8doKK+iTMh8zzW0J7nJuR8nDS+vKOT1S3xyZp5imsTg2/Rmu1iK6Ynz4KJ2TMiArXludpeOEWhWF/rXRl5PomLErXQ25jOWCX0SC11YI8WkQYaUw0leoQliMdGRBp/Trs/6ldjaynrgJiehmT4TYBO4m1DhpRIwJsNVrv/CVRj8SF7iaoEl/Gkxr1iw966dNlARP2LeNKOUiQHEiz6n4zzGJVrAg/FwN7RCedmRthDxT6njNeYfKUjcRzMln7AgMBAAECggEAAeQqnvxtuUIOfttlcFPFtXsYNLlmASsCdt0BVBJsMDExXiu4HbGVHRYdWfQ869Or/v0cICnE5NADRbtiaMa653ymUboY//zg79YMEYVFfFZ4//Qm7yRcz/WhFLes/CA0euIHV8qsqVai44Jswm+ED3LtXfFN5QKvpco+/kdKkHmCT8N6An/sX1A8e1Puo9Sjy1jLCju9Q0LswUUIWF6bJ9BnEY8PRkAKsvlY+gk5OS9j2p2bJ6i3qoH+EtAs02RFUa/0X/HWwLXMtjAbtklRMeMcKEneb9I9+nXldTg5Tu+tuHWvYLKCGRP9yztUQCI+NdeDJXCi8s/7gOsWt3b7aQKBgQDA2KicRV6EeEYuYOI1Myiu4ehnzEoC1E2uMF1hKYiICNEFSSV+0afqhHpZFzDcH63oHTa8n+qQ5Y/6HForuTGLY27aDbwW/8VmRNgiyaKXpjOayk4Wgv6ylFVcqUOYArrzaELVZaxXt7gDC1ikPOqc7kN41/mzb3vTMdm1p/RlTQKBgQCqgdTrU5Hp2t8WvZaWrqNf9TchQ7EPzx8cQV9TfHbtE4+492IJTbynEwHNAXvXNfYDWBdukh80vAvZJIx9loifPzuxdcBVjAivOvJwxYAVWyFiaeE49LqEnpQXpJwQrs02ZdNXx3DBWfvRsBYYnD1kKaZ5IV+wGJElx1rA6yf4ZwKBgQC2WCaWHMGSYGd70wARbZ46PkGSZAhXRIdu/SxOgwcmGbAKX2+kynkLttg5BUSd3xaBM55eHJefCnFo/QYF8cZ3Fj3q0LHYzV/Jo676tc2Xtv90jXXos1RBZyCPzTysr2g2X49SWCDtkDneJwxZv3/XgzMpQI5KrE9ZEvnYWkcswQKBgH5dPikxhEAmP5Og6ku+HcJt/2+dtUmcHNhZ8oXzBkhpaOiSHov6msfPpFQEt30ltq9/x83gaVQx0S4akiw5NgOfX2QDeolsALutGiRNmsE5CqLfCVWmudyzkdl721XZ1qhsCpdRbdU+FQywTY/rquvimkfHXh0p99hhyHaVUMgdAoGAT3qcIWaLZTZvkVUkhxyX2gIXpp6H+A+KEQIVfiviuthSybA7wDeyDcpzX+o+MjRBwoJWiR7DPZj8/W65ZuNjsY0upduxDbtCSbPb2qW4JCLY9hf8gaeWKrzO86G5Sz/8OT2bB39HUwKfbTBerYP1nuMY+iLpysf/ZJRrvRTcMbE="
+
+# aes加密
+aes:
+  key: "cxs-currency-sys"
+alipay:
+  # 应用ID
+  app-id: "  "
+  # 支付宝网关
+  gateway-url: "https://openapi-sandbox.dl.alipaydev.com/gateway.do"
+  # 商户私钥
+  merchant_private_key: " "
+  # 支付宝公钥
+  alipay_public_key: " "
+  # 通知地址
+  notify_url: "公网地址/rechangeType/call"
+  # 回调地址
+  return_url: "公网地址/index"
+  # 签名方式
+  sign_type: "RSA2"
+  # 字符编码方式
+  charset: "utf-8"

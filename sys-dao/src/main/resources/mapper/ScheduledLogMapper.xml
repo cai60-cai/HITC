@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.ScheduledLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.ScheduledLog">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="taskId" column="task_id" jdbcType="INTEGER"/>
+            <result property="executeTime" column="execute_time" jdbcType="TIMESTAMP"/>
+            <result property="executeStatus" column="execute_status" jdbcType="TINYINT"/>
+            <result property="executeDesc" column="execute_desc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,task_id,execute_time,
+        execute_status,execute_desc
+    </sql>
+</mapper>

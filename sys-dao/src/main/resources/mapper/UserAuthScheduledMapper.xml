@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.UserAuthScheduledMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.UserAuthScheduled">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+            <result property="uploadAuth" column="upload_auth" jdbcType="TINYINT"/>
+            <result property="commentAuth" column="comment_auth" jdbcType="TINYINT"/>
+            <result property="rewardAuth" column="reward_auth" jdbcType="TINYINT"/>
+            <result property="pushArticleAuth" column="push_article_auth" jdbcType="TINYINT"/>
+            <result property="applyExternalAuth" column="apply_external_auth" jdbcType="TINYINT"/>
+            <result property="feedbackAuth" column="feedback_auth" jdbcType="TINYINT"/>
+            <result property="reportAuth" column="report_auth" jdbcType="TINYINT"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,upload_auth,
+        comment_auth,reward_auth,push_article_auth,
+        apply_external_auth,feedback_auth,report_auth,
+        start_time,end_time
+    </sql>
+</mapper>

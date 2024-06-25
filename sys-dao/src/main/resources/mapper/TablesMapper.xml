@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.TablesMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.Tables">
+            <result property="tableCatalog" column="TABLE_CATALOG" jdbcType="VARCHAR"/>
+            <result property="tableSchema" column="TABLE_SCHEMA" jdbcType="VARCHAR"/>
+            <result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR"/>
+            <result property="tableType" column="TABLE_TYPE" jdbcType="VARCHAR"/>
+            <result property="engine" column="ENGINE" jdbcType="VARCHAR"/>
+            <result property="version" column="VERSION" jdbcType="BIGINT"/>
+            <result property="rowFormat" column="ROW_FORMAT" jdbcType="VARCHAR"/>
+            <result property="tableRows" column="TABLE_ROWS" jdbcType="BIGINT"/>
+            <result property="avgRowLength" column="AVG_ROW_LENGTH" jdbcType="BIGINT"/>
+            <result property="dataLength" column="DATA_LENGTH" jdbcType="BIGINT"/>
+            <result property="maxDataLength" column="MAX_DATA_LENGTH" jdbcType="BIGINT"/>
+            <result property="indexLength" column="INDEX_LENGTH" jdbcType="BIGINT"/>
+            <result property="dataFree" column="DATA_FREE" jdbcType="BIGINT"/>
+            <result property="autoIncrement" column="AUTO_INCREMENT" jdbcType="BIGINT"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="checkTime" column="CHECK_TIME" jdbcType="TIMESTAMP"/>
+            <result property="tableCollation" column="TABLE_COLLATION" jdbcType="VARCHAR"/>
+            <result property="checksum" column="CHECKSUM" jdbcType="BIGINT"/>
+            <result property="createOptions" column="CREATE_OPTIONS" jdbcType="VARCHAR"/>
+            <result property="tableComment" column="TABLE_COMMENT" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,
+        TABLE_TYPE,ENGINE,VERSION,
+        ROW_FORMAT,TABLE_ROWS,AVG_ROW_LENGTH,
+        DATA_LENGTH,MAX_DATA_LENGTH,INDEX_LENGTH,
+        DATA_FREE,AUTO_INCREMENT,CREATE_TIME,
+        UPDATE_TIME,CHECK_TIME,TABLE_COLLATION,
+        CHECKSUM,CREATE_OPTIONS,TABLE_COMMENT
+    </sql>
+    <select id="selectTables" resultType="com.cxs.bo.TableInfoBo">
+        select TABLE_NAME as tableName,
+               TABLE_COMMENT as tableComment
+        from information_schema.TABLES
+        where TABLE_SCHEMA = #{database}
+        <if test="keyWord != null and keyWord != ''">
+            and TABLE_NAME like concat('%', #{keyWord}, '%')
+             or TABLE_COMMENT like concat('%', #{keyWord}, '%')
+        </if>
+    </select>
+</mapper>

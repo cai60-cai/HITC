@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkcxs_currency_sys_client"]=self["webpackChunkcxs_currency_sys_client"]||[]).push([[357],{24357:function(e,n,c){c.r(n),c.d(n,{default:function(){return _}});var s=function(){var e=this,n=e._self._c;return n("div",[e._v(" 资源详情页 ")])},u=[],r={name:"ResourceDetail"},t=r,l=c(81656),i=(0,l.A)(t,s,u,!1,null,"9fd45b38",null),_=i.exports}}]);

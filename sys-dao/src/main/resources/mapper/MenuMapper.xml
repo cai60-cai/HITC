@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.MenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.Menu">
+        <id property="menuId" column="menu_id" jdbcType="INTEGER"/>
+        <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+        <result property="menuPath" column="menu_path" jdbcType="VARCHAR"/>
+        <result property="menuComponent" column="menu_component" jdbcType="VARCHAR"/>
+        <result property="menuRedirect" column="menu_redirect" jdbcType="VARCHAR"/>
+        <result property="menuHidden" column="menu_hidden" jdbcType="TINYINT"/>
+        <result property="menuAlwaysShow" column="menu_always_show" jdbcType="TINYINT"/>
+        <result property="menuMeta" column="menu_meta" jdbcType="VARCHAR"/>
+        <result property="menuParantId" column="menu_parant_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        menu_id,menu_name,menu_path,
+        menu_component,menu_redirect,menu_hidden,
+        menu_always_show,menu_meta,menu_parant_id
+    </sql>
+    <select id="getAllMenuIdByUserId" resultType="java.lang.Integer">
+        select distinct rm.menu_id
+        from t_role_menu rm
+        where rm.role_id in (select ur.role_id from t_user_role ur where ur.user_id = #{userId})
+    </select>
+</mapper>

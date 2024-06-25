@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.RealtionQuestionMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.RealtionQuestion">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="question" column="question" jdbcType="VARCHAR"/>
+            <result property="questionAnswer" column="question_answer" jdbcType="VARCHAR"/>
+            <result property="isShow" column="is_show" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,question,question_answer,
+        is_show
+    </sql>
+</mapper>

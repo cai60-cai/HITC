@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.ReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.Report">
+            <id property="reportId" column="report_id" jdbcType="INTEGER"/>
+            <result property="reportType" column="report_type" jdbcType="VARCHAR"/>
+            <result property="reportContent" column="report_content" jdbcType="VARCHAR"/>
+            <result property="reportImages" column="report_images" jdbcType="VARCHAR"/>
+            <result property="reportStatus" column="report_status" jdbcType="TINYINT"/>
+            <result property="reportTarget" column="report_target" jdbcType="TINYINT"/>
+            <result property="reportTargetId" column="report_target_id" jdbcType="TINYINT"/>
+            <result property="reportUserId" column="report_user_id" jdbcType="VARCHAR"/>
+            <result property="reportTime" column="report_time" jdbcType="TIMESTAMP"/>
+            <result property="reportHandleDesc" column="report_handle_desc" jdbcType="VARCHAR"/>
+            <result property="reportHandleAdmin" column="report_handle_admin" jdbcType="VARCHAR"/>
+            <result property="reportHandleResult" column="report_handle_result" jdbcType="VARCHAR"/>
+            <result property="reportHandleTime" column="report_handle_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        report_id,report_type,report_content,
+        report_images,report_status,report_target,report_target_id,
+        report_user_id,report_time,report_handle_desc,
+        report_handle_admin,report_handle_result,report_handle_time
+    </sql>
+</mapper>

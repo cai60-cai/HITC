@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body>
+我的HTML代码
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '/main/test',
+            method: 'post',
+            data: {email: '1174586985@qq.com'},
+            success: res => {
+                console.log(res)
+            }
+        })
+    });
+</script>
+</body>
+</html>

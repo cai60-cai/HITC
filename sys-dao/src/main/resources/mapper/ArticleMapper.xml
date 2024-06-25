@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.Article">
+        <id property="articleId" column="article_id" jdbcType="INTEGER"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleAbstract" column="article_abstract" jdbcType="VARCHAR"/>
+        <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+        <result property="articleType" column="article_type" jdbcType="INTEGER"/>
+        <result property="articleDetail" column="article_detail" jdbcType="VARCHAR"/>
+        <result property="articleFileId" column="article_file_id" jdbcType="VARCHAR"/>
+        <result property="articleDesc" column="article_desc" jdbcType="VARCHAR"/>
+        <result property="articleRate" column="article_rate" jdbcType="FLOAT"/>
+        <result property="articleStatus" column="article_status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="articleIsRecommend" column="article_is_recommend" jdbcType="TINYINT"/>
+        <result property="articleIsIndex" column="article_is_index" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="userArticleListMap" type="com.cxs.bo.UserArticleListBo">
+        <id property="articleId" column="article_id" jdbcType="INTEGER"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleAbstract" column="article_abstract" jdbcType="VARCHAR"/>
+        <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="articleRate" column="article_rate" jdbcType="FLOAT"/>
+        <result property="typeId" column="id" jdbcType="INTEGER"/>
+        <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        article_id
+        ,article_title,article_abstract,
+        article_cover,article_type,article_detail,article_rate
+        article_file_id,article_status,create_time,update_time,article_is_index,article_desc
+    </sql>
+    <select id="selectArticleList" resultMap="userArticleListMap">
+        select a.article_id,
+        a.article_title,
+        a.article_abstract,
+        a.article_is_index,
+        a.article_cover,
+        a.article_rate,
+        a.create_time,
+        t.id,
+        t.type_name,
+        a.article_belong_user_id userId,
+        u.nick_name
+        from t_article a
+        left join t_technology_type t on a.article_type = t.id
+        left join t_article_tag tat on a.article_id = tat.article_id
+        left join t_user u on a.article_belong_user_id = u.user_id
+        <where>
+            and a.article_status = 1
+            <if test="keyword != null and keyword != ''">
+                and (a.article_title like concat('%', #{keyword}, '%') or a.article_abstract like concat('%',
+                #{keyword}, '%'))
+            </if>
+            <if test="typeId != null">
+                and t.id = #{typeId}
+            </if>
+            <if test="tagId != null">
+                and tat.tag_id = #{tagId}
+            </if>
+            <if test="tags != null and tags.size() > 0">
+                and tat.tag_id in
+                <foreach collection="tags" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="flag != null and flag == 1">
+                and a.article_is_index = 1
+            </if>
+        </where>
+        group by a.article_id
+        order by a.article_is_recommend desc,
+        <choose>
+            <when test="flag != null and flag == 1">
+                a.create_time desc
+            </when>
+            <otherwise>
+                a.create_time asc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectSystemRecommend" resultType="com.cxs.bo.SystemRecommendArticleBO">
+        select a.article_id, a.article_title, t.type_name
+        from t_article a
+                 left join t_technology_type t on a.article_type = t.id
+        where a.article_is_recommend = 1
+        order by a.create_time desc
+    </select>
+    <select id="checkDownLoadPoint" resultType="java.lang.Integer">
+        select (select u.point from t_user as u where u.user_id = #{id}) >=
+               (select article_download_point from t_article t where t.article_id = #{articleId});
+    </select>
+    <select id="selectRangeCreateTimeCountInfo" resultType="com.cxs.bo.ArticleRangeCountBo">
+        select a.format_date as date, count(a.format_date) as count
+        from (
+            select u.create_time, DATE_FORMAT(u.create_time, '%Y-%m-%d') as format_date from t_article u order by u.create_time desc
+            ) a
+        group by a.format_date
+        order by a.format_date desc limit #{num}
+    </select>
+</mapper>

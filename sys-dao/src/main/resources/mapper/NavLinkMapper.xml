@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.NavLinkMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.NavLink">
+        <id property="navId" column="nav_id" jdbcType="INTEGER"/>
+        <result property="navName" column="nav_name" jdbcType="VARCHAR"/>
+        <result property="navLink" column="nav_link" jdbcType="VARCHAR"/>
+        <result property="navType" column="nav_type" jdbcType="TINYINT"/>
+        <result property="navIcon" column="nav_icon" jdbcType="VARCHAR"/>
+        <result property="navDesc" column="nav_desc" jdbcType="VARCHAR"/>
+        <result property="navRemark" column="nav_remark" jdbcType="VARCHAR"/>
+        <result property="navOrder" column="nav_order" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        nav_id,nav_name,nav_link,
+        nav_type,nav_icon,nav_desc,
+        nav_remark,nav_order
+    </sql>
+    <update id="updateByPrimaryKeyBatchs" parameterType="list">
+        update t_nav_link
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="nav_order =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.navOrder != null">
+                        when nav_id = #{i.navId} then #{i.navOrder}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="list" separator="or" item="i" index="index">
+            nav_id = #{i.navId}
+        </foreach>
+    </update>
+    <select id="selectMaxOrderNavLink" resultMap="BaseResultMap">
+        select *
+        from t_nav_link
+        order by nav_order desc
+        limit 1;
+    </select>
+    <select id="selectNavLinkByOrderRange" resultType="com.cxs.model.NavLink">
+        select *
+        from t_nav_link
+        where nav_order &gt;= #{minNavOrder}
+          and nav_order &lt;= #{maxNavOrder}
+        order by nav_order asc;
+    </select>
+    <select id="selectNavLinkByOrder" resultType="com.cxs.model.NavLink">
+        select *
+        from t_nav_link
+        where nav_order = #{order};
+    </select>
+    <select id="selectNavLinkAfterOrder" resultType="com.cxs.model.NavLink">
+        select nav_id, nav_order
+        from t_nav_link t
+        where t.nav_order &gt;= #{order}
+        order by t.nav_order asc;
+    </select>
+</mapper>

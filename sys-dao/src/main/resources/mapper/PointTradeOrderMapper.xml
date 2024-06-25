@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.PointTradeOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.PointTradeOrder">
+        <id property="orderTradeNo" column="order_trade_no" jdbcType="VARCHAR"/>
+        <result property="orderUser" column="order_user" jdbcType="VARCHAR"/>
+        <result property="pointTypeId" column="point_type_id" jdbcType="INTEGER"/>
+        <result property="orderStatus" column="order_status" jdbcType="TINYINT"/>
+        <result property="orderDesc" column="order_desc" jdbcType="VARCHAR"/>
+        <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        order_trade_no
+        ,order_user,point_type_id,
+        order_status,order_desc,order_time
+    </sql>
+    <select id="selectRangeCreateTimeCountInfo" resultType="com.cxs.bo.OrderRangeCountBo">
+        select a.format_date as date, count(a.format_date) as count
+        from (
+            select u.order_time, DATE_FORMAT(u.order_time, '%Y-%m-%d') as format_date from t_point_trade_order u where u.order_status = 1
+            ) a
+        group by a.format_date
+        order by date desc limit #{num}
+    </select>
+</mapper>

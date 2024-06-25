@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.UserRewardMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.UserReward">
+            <id property="userId" column="user_id" jdbcType="VARCHAR"/>
+            <result property="weixinImg" column="weixin_img" jdbcType="VARCHAR"/>
+            <result property="weixinBorderColor" column="weixin_border_color" jdbcType="VARCHAR"/>
+            <result property="zhifubaoImg" column="zhifubao_img" jdbcType="VARCHAR"/>
+            <result property="zhifubaoBorderColor" column="zhifubao_border_color" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,weixin_img,weixin_border_color,
+        zhifubao_img,zhifubao_border_color
+    </sql>
+    <update id="updateIfExistInsert">
+        insert INTO t_user_reward
+        VALUES (#{userId}, #{weixinImg}, #{weixinBorderColor}, #{zhifubaoImg}, #{zhifubaoBorderColor})
+        ON DUPLICATE KEY UPDATE
+            weixin_img = VALUES(weixin_img),
+            weixin_border_color = VALUES(weixin_border_color),
+            zhifubao_img = VALUES(zhifubao_img),
+            zhifubao_border_color = VALUES(zhifubao_border_color)
+    </update>
+</mapper>

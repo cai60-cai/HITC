@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.LogInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.LogInfo">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="param" column="param" jdbcType="VARCHAR"/>
+        <result property="response" column="response" jdbcType="VARCHAR"/>
+        <result property="operaDesc" column="opera_desc" jdbcType="VARCHAR"/>
+        <result property="operaUserId" column="opera_user_id" jdbcType="VARCHAR"/>
+        <result property="operaTime" column="opera_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="LogBaseResultMap" type="com.cxs.bo.LogInfoBo">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="param" column="param" jdbcType="VARCHAR"/>
+        <result property="response" column="response" jdbcType="VARCHAR"/>
+        <result property="operaDesc" column="opera_desc" jdbcType="VARCHAR"/>
+        <result property="operaMethod" column="opera_method" jdbcType="VARCHAR"/>
+        <result property="operaTime" column="opera_time" jdbcType="TIMESTAMP"/>
+        <result property="operaResult" column="opera_result" jdbcType="TINYINT"/>
+        <result property="operaErrorWhy" column="opera_error_why" jdbcType="VARCHAR"/>
+        <association property="operaUser" javaType="com.cxs.bo.UserBo">
+            <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+            <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,param,response,
+        opera_desc,opera_user_id,opera_time
+    </sql>
+    <select id="selectListByQuery" resultMap="LogBaseResultMap">
+        select t.*, u.user_id, u.nick_name from
+        t_log_info t left join t_user u on t.opera_user_id = u.user_id
+        <where>
+            <if test="dto.operaResult != null">
+                and t.opera_result = #{dto.operaResult}
+            </if>
+            <if test="dto.startTime != null and dto.endTime != null">
+                and t.opera_time &gt;= #{dto.startTime} and t.opera_time &lt;= #{dto.endTime}
+            </if>
+            <if test="dto.keyword != null and dto.keyword != ''">
+                and(
+                    t.param like concat('%', #{dto.keyword} ,'%') or
+                    t.response like concat('%', #{dto.keyword} ,'%') or
+                    t.opera_error_why like concat('%', #{dto.keyword} ,'%') or
+                    t.opera_desc like concat('%', #{dto.keyword} ,'%') or
+                    t.opera_user_id like concat('%', #{dto.keyword} ,'%')
+                )
+            </if>
+        </where>
+        order by t.opera_time desc
+    </select>
+</mapper>

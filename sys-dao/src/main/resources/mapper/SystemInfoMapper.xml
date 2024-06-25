@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.SystemInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.SystemInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="sysTitle" column="sys_title" jdbcType="VARCHAR"/>
+            <result property="sysGraph" column="sys_graph" jdbcType="VARCHAR"/>
+            <result property="sysContent" column="sys_content" jdbcType="VARCHAR"/>
+            <result property="sysWeixin" column="sys_weixin" jdbcType="VARCHAR"/>
+            <result property="sysWenxinPublic" column="sys_wenxin_public" jdbcType="VARCHAR"/>
+            <result property="sysEmail" column="sys_email" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sys_title,sys_graph,
+        sys_content,sys_weixin,sys_wenxin_public,
+        sys_email
+    </sql>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxs.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.cxs.model.User">
+        <id property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="autograph" column="autograph" jdbcType="VARCHAR"/>
+        <result property="userStatus" column="user_status" jdbcType="TINYINT"/>
+        <result property="sex" column="sex" jdbcType="TINYINT"/>
+        <result property="point" column="point" jdbcType="INTEGER"/>
+        <result property="userType" column="user_type" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id
+        ,user_name,password,
+        avatar,nick_name,phone,
+        email,create_time,
+        update_time,autograph,user_status,point,sex,user_type
+    </sql>
+    <update id="updateOperaPointById">
+        update t_user u set
+        <if test="type != null and type == 1">
+            u.point = u.point + #{point}
+        </if>
+        <if test="type != null and type == 0">
+            u.point = u.point - #{point}
+        </if>
+        where u.user_id = #{id}
+    </update>
+    <select id="selectRangeCreateTimeCountInfo" resultType="com.cxs.bo.UserRangeCountBo">
+        select a.format_date as date, count(a.format_date) as count
+        from (
+            select u.create_time, DATE_FORMAT(u.create_time, '%Y-%m-%d') as format_date from t_user u order by u.create_time desc
+            ) a
+        group by a.format_date order by a.format_date desc limit #{num}
+    </select>
+</mapper>
